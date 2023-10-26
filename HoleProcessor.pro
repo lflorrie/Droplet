@@ -28,15 +28,29 @@ CONFIG += lrelease
 CONFIG += embed_translations
 
 
-INCLUDEPATH += C:\Programs2\opencv\opencv\build\include
+#example
+#unix: include(/home/user/myProject/myLybrary/my-lib.pri)
+#win32: include(C:/myProject/myLybrary/my-lib.pri)
 
-LIBS += C:\Programs2\opencv\build\bin\libopencv_core480.dll
-LIBS += C:\Programs2\opencv\build\bin\libopencv_highgui480.dll
-LIBS += C:\Programs2\opencv\build\bin\libopencv_imgcodecs480.dll
-LIBS += C:\Programs2\opencv\build\bin\libopencv_imgproc480.dll
-LIBS += C:\Programs2\opencv\build\bin\libopencv_features2d480.dll
-LIBS += C:\Programs2\opencv\build\bin\libopencv_calib3d480.dll
+unix {
+    INCLUDEPATH += /usr/include/opencv4
+    LIBS += -lopencv_core
+    LIBS += -lopencv_highgui
+    LIBS += -lopencv_imgcodecs
+    LIBS += -lopencv_imgproc
+    LIBS += -lopencv_features2d
+    LIBS += -lopencv_calib3d
+}
+win32 {
+    INCLUDEPATH += C:\Programs2\opencv\opencv\build\include
 
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_core480.dll
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_highgui480.dll
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_imgcodecs480.dll
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_imgproc480.dll
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_features2d480.dll
+    LIBS += C:\Programs2\opencv\build\bin\libopencv_calib3d480.dll
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

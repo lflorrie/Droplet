@@ -1,8 +1,12 @@
 #ifndef OPENCV_UTILS_H
 #define OPENCV_UTILS_H
-#include "opencv2/imgcodecs.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/imgproc.hpp"
+//#include "opencv4/opencv2/imgcodecs.hpp"
+//#include "opencv4/opencv2/highgui.hpp"
+//#include "opencv4/opencv2/imgproc.hpp"
+
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <QImage>
 
 cv::Mat qimage_to_mat_ref(QImage &img, int format);

@@ -208,6 +208,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *item, QTreeWidgetItem *previous)
 {
+	Q_UNUSED(previous);
+
     if (item->childCount() < 2)
         return;
     this->selectedScene = item->text(0).toInt() - 1;
