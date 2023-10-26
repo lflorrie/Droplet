@@ -9,10 +9,12 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    opencv_utils.cpp \
-    paintscene.cpp
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/opencv_utils.cpp \
+    src/paintscene.cpp
+
+INCLUDEPATH += include/
 
 HEADERS += \
     mainwindow.h \
@@ -20,10 +22,11 @@ HEADERS += \
     paintscene.h
 
 FORMS += \
-    mainwindow.ui
+    forms/mainwindow.ui
 
 TRANSLATIONS += \
-    HoleProcessor_ru_RU.ts
+    translate/HoleProcessor_ru_RU.ts
+
 CONFIG += lrelease
 CONFIG += embed_translations
 
