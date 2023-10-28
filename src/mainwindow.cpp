@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileSystemModel>
+#include <QWheelEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setAcceptDrops(true);
     ui->thresholdMask->setValue(5);
     ui->blurNum->setValue(10);
+	auto scene = (PaintScene)ui->backgroundGraphicsView->scene();
+	ui->backgroundGraphicsView->setInteractive(false);
 }
 
 MainWindow::~MainWindow()
@@ -240,24 +243,22 @@ void MainWindow::on_pushButton_clicked()
 
 }
 
-
-#include <QWheelEvent>
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-    if ( QApplication::keyboardModifiers () == Qt::CTRL) {
-    ui->backgroundGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    ui->holeGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    // Scale the view / do the zoom
-    double scaleFactor = 1.15;
-    if(event->angleDelta().y() > 0) {
-        // Zoom in
-        ui->backgroundGraphicsView-> scale(scaleFactor, scaleFactor);
-        ui->holeGraphicsView->scale(scaleFactor, scaleFactor);
+//    if ( QApplication::keyboardModifiers () == Qt::CTRL) {
+//    ui->backgroundGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+//    ui->holeGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+//    // Scale the view / do the zoom
+//    double scaleFactor = 1.15;
+//    if(event->angleDelta().y() > 0) {
+//        // Zoom in
+//        ui->backgroundGraphicsView-> scale(scaleFactor, scaleFactor);
+//        ui->holeGraphicsView->scale(scaleFactor, scaleFactor);
 
-    } else {
-        // Zooming out
-        ui->backgroundGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-        ui->holeGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-    }
-    }
+//    } else {
+//        // Zooming out
+//        ui->backgroundGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+//        ui->holeGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+//    }
+//    }
 }

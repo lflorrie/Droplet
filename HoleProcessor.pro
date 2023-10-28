@@ -17,9 +17,9 @@ SOURCES += \
 INCLUDEPATH += include/
 
 HEADERS += \
-    mainwindow.h \
-    opencv_utils.h \
-    paintscene.h
+    include/mainwindow.h \
+    include/opencv_utils.h \
+    include/paintscene.h
 
 FORMS += \
     forms/mainwindow.ui

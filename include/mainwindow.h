@@ -5,7 +5,7 @@
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
 #include "paintscene.h"
-#include "opencv_utils.h"
+#include <opencv_utils.h>
 #include <QCollator>
 #include <QTreeWidgetItem>
 
