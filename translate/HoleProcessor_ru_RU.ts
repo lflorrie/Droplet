@@ -23,62 +23,62 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <message>
         <location filename="../forms/mainwindow.ui" line="52"/>
         <source>Step</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаг</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="93"/>
         <source>Droplet</source>
-        <translation type="unfinished"></translation>
+        <translation>Капля</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="135"/>
         <source>Start angle</source>
-        <translation type="unfinished"></translation>
+        <translation>Начальный угол</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="148"/>
         <source>Refraction =</source>
-        <translation type="unfinished"></translation>
+        <translation>Рефракция =</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="167"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Фон</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="193"/>
         <source>Create report</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать отчет</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="200"/>
         <source>contour</source>
-        <translation type="unfinished"></translation>
+        <translation>Контур</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="223"/>
         <source>Threshold</source>
-        <translation type="unfinished"></translation>
+        <translation>Порог</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="230"/>
         <source>Blur</source>
-        <translation type="unfinished"></translation>
+        <translation>Размытие</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="247"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../forms/mainwindow.ui" line="256"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="148"/>
         <source>Open Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть папку</translation>
     </message>
 </context>
 </TS>
