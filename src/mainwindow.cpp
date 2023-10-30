@@ -264,5 +264,36 @@ void MainWindow::wheelEvent(QWheelEvent *event)
 //        ui->backgroundGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
 //        ui->holeGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
 //    }
-//    }
+	//    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Tab) {
+		if (QApplication::keyboardModifiers () == Qt::CTRL)
+		{
+			qDebug() << "tab + ctrl";
+			if (ui->treeWidget->topLevelItemCount())
+			{
+				if (ui->treeWidget->selectedItems().size() == 0)
+				{
+					ui->treeWidget->topLevelItem(0)->setSelected(true);
+					this->selectedScene = 0;
+					ui->treeWidget->currentItemChanged(ui->treeWidget->topLevelItem(0), NULL);
+				}
+				else
+				{
+					ui->treeWidget->topLevelItem(this->selectedScene)->setSelected(false);
+					this->selectedScene++;
+					if (selectedScene == ui->treeWidget->topLevelItemCount())
+					{
+						selectedScene = 0;
+					}
+					ui->treeWidget->topLevelItem(this->selectedScene)->setSelected(true);
+					ui->treeWidget->currentItemChanged(ui->treeWidget->topLevelItem(this->selectedScene), ui->treeWidget->topLevelItem(this->selectedScene - 1));
+				}
+			}
+
+		}
+	}
 }

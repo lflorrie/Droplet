@@ -71,5 +71,9 @@ protected:
     // QWidget interface
 protected:
     void wheelEvent(QWheelEvent *event) override;
+
+	// QWidget interface
+protected:
+	void keyPressEvent(QKeyEvent *event);
 };
 #endif // MAINWINDOW_H
