@@ -12,6 +12,7 @@
 #include <QDropEvent>
 #include <QMimeData>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -47,10 +48,12 @@ private:
     int         threshold;
     int         threshold2Offset;
 
+	std::vector<std::vector<cv::Point>> contours;
     QVector<PaintScene> backgroundScenes;
     QVector<PaintScene>  holeScenes;
     QVector<float>  refractionsData;
     int selectedScene;
+
 
     QString     folderName;
 

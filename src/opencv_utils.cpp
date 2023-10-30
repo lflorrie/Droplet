@@ -13,26 +13,52 @@ QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format)
     return QImage(mat.data, mat.cols, mat.rows, format);
 }
 
-Mat getContours(cv::Mat mat, int threshold, int threshold2Offset)
+cv::Mat getContours(cv::Mat mat, int threshold, int threshold2Offset, int blurNum, cv::Mat &dst)
 {
+	cv::Mat src = mat.clone();
     Mat canny_output;
     RNG rng(12345);
 //    int thresh = 100;
 
     Canny( mat, canny_output, threshold, threshold2Offset + threshold );
-    vector<vector<Point> > contours;
+	vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
     findContours( canny_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE );
-    Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+	Mat drawing = Mat::zeros( canny_output.size(), CV_8UC3 );
+	Mat drawing2 = Mat::zeros( canny_output.size(), CV_8UC3 );
     for( size_t i = 0; i< contours.size(); i++ )
-    {
-        Scalar color = Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
-        drawContours( drawing, contours, (int)i, color, 2, LINE_8, hierarchy, 0 );
-    }
-    imshow( "Contours", drawing );
-    imshow( "Mat", mat );
+	{
+		Scalar color = Scalar( rng.uniform(0, 256), rng.uniform(0,256), rng.uniform(0,256) );
+		drawContours( drawing, contours, (int)i, color, 2, LINE_8, hierarchy, 0 );
+	}
+//	int iterations = 10;
+	bitwise_not(mat, mat);
 
-    return drawing;
+	vector<vector<Point>> contours2;
+	findContours( mat, contours2, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE );
+	for (size_t i = 0; i < contours2.size(); ++i)
+	{
+		Scalar color = Scalar( 255, 0, 0);
+		drawContours( dst, contours2, (int)i, color, 2, LINE_8, hierarchy, 0 );
+	}
+	erode(mat, mat, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(blurNum,blurNum)), cv::Point(-1,-1));
+	contours2.clear();
+
+	findContours( mat, contours2, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE );
+
+	for (size_t i = 0; i < contours2.size(); ++i)
+	{
+		Scalar color = Scalar( 0, 0, 255 );
+		drawContours( dst, contours2, (int)i, color, 2, LINE_8, hierarchy, 0 );
+	}
+
+	bitwise_not(mat, mat);
+
+	imshow( "Contours", drawing );
+	imshow( "Contours2", dst );
+	imshow( "Mat", mat );
+
+	return dst;
 }
 
 void imageSubtraction(cv::Mat &a, cv::Mat &b, int thresh, int blurNum)

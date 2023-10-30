@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->blurNum->setValue(10);
 	auto scene = (PaintScene)ui->backgroundGraphicsView->scene();
 	ui->backgroundGraphicsView->setInteractive(false);
+
 }
 
 MainWindow::~MainWindow()
@@ -79,11 +80,15 @@ float MainWindow::getRefractionFromImage(QImage &cropBackground, QImage &cropHol
     cv::Mat mat = qimage_to_mat_ref(grayImage, CV_8UC1);
     cv::Mat matBack = qimage_to_mat_ref(grayImageBack, CV_8UC1);
 
-    //subtraction
-    mat_ = mat.clone();
-    imageSubtraction(mat_, matBack, ui->thresholdMask->value(), ui->blurNum->value());
+	cv::Mat mat3;
+	cv::cvtColor(mat, mat3, cv::COLOR_GRAY2RGB);
 
-    getContours(mat_, threshold, threshold2Offset);
+    //subtraction
+	mat_ = mat.clone();
+	imageSubtraction(mat_, matBack, ui->thresholdMask->value(), ui->blurNum->value());
+
+	mat_ = getContours(mat_, this->threshold, this->threshold2Offset, ui->blurNum->value(), mat3);
+
 #if 0
     return getMeanByMask(mat, mat_) / getMeanByMask(matBack, mat_);
 #endif
@@ -133,14 +138,14 @@ float MainWindow::meanImage(QImage image)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     threshold = value;
-    getContours(mat_, threshold, threshold2Offset);
+//    getContours(mat_, threshold, threshold2Offset);
 }
 
 
 void MainWindow::on_horizontalSlider_2_valueChanged(int value)
 {
     threshold2Offset = value;
-    getContours(mat_, threshold, threshold2Offset);
+//    getContours(mat_, threshold, threshold2Offset);
 }
 
 void MainWindow::on_actionOpenTriggered()
@@ -228,19 +233,18 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *item, QTreeWi
 
 }
 
-
 void MainWindow::on_pushButton_clicked()
 {
     qDebug() << "create report";
-    QFile file("Report.txt");
-    file.open(QIODevice::WriteOnly);
-    for (int i = 0; i < refractionsData.size(); ++i)
-    {
-        QTextStream out(&file);
-        out << ui->startAngle->value() + ui->stepAngle->value() * i << "\t" << refractionsData[i] << "\n";
-        qDebug() << refractionsData[i];
-    }
-
+	QString filename = QFileDialog::getSaveFileName(this, tr("Save as txt"), "");
+	QFile file(filename);
+	file.open(QIODevice::WriteOnly);
+	for (int i = 0; i < refractionsData.size(); ++i)
+	{
+		QTextStream out(&file);
+		out << ui->startAngle->value() + ui->stepAngle->value() * i << "\t" << refractionsData[i] << "\n";
+		qDebug() << refractionsData[i];
+	}
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)

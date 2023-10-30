@@ -13,7 +13,7 @@ cv::Mat qimage_to_mat_ref(QImage &img, int format);
 
 QImage mat_to_qimage_ref(cv::Mat &mat, QImage::Format format);
 
-cv::Mat getContours(cv::Mat mat, int threshold, int threshold2Offset);
+cv::Mat getContours(cv::Mat mat, int threshold, int threshold2Offset, int blurNum, cv::Mat &dst);
 
 void imageSubtraction(cv::Mat &a, cv::Mat &b, int thresh, int blurNum);
 
