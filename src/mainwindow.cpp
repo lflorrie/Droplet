@@ -63,6 +63,8 @@ void MainWindow::fillDataFromFolder(const QString &folder)
             scene.addItem(item);
             holeScenes.push_back(scene);
         }
+        connect(&holeScenes[num], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[num], SLOT(drawRectangleNoSignal(QRectF)));
+        connect(&backgroundScenes[num], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
         ++num;
     }
     refractionsData.fill(0, num);
@@ -162,6 +164,7 @@ void MainWindow::clearAll()
     for (auto &i : backgroundScenes)
     {
         auto items = i.items();
+        disconnect(&i);
         for (int i = 0; i < items.count(); ++i)
         {
             delete items[i];
@@ -170,6 +173,7 @@ void MainWindow::clearAll()
     backgroundScenes.clear();
     for (auto &i : holeScenes)
     {
+        disconnect(&i);
         auto items = i.items();
         for (int i = 0; i < items.count(); ++i)
         {
@@ -228,9 +232,8 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *item, QTreeWi
     this->backgroundFileName = item->child(0)->text(0);
     this->holeFileName = item->child(1)->text(0);
 
-    connect(&holeScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[selectedScene], SLOT(drawRectangleNoSignal(QRectF)));
-    connect(&backgroundScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
-
+//    connect(&holeScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[selectedScene], SLOT(drawRectangleNoSignal(QRectF)));
+//    connect(&backgroundScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -275,7 +278,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 			qDebug() << "tab + ctrl";
 			if (ui->treeWidget->topLevelItemCount())
 			{
-				if (ui->treeWidget->selectedItems().size() == 0)
+                if (ui->treeWidget->selectedItems().size() == 0)
 				{
 					ui->treeWidget->topLevelItem(0)->setSelected(true);
 					this->selectedScene = 0;
@@ -286,8 +289,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 					ui->treeWidget->topLevelItem(this->selectedScene)->setSelected(false);
 					this->selectedScene++;
 					if (selectedScene == ui->treeWidget->topLevelItemCount())
-					{
-						selectedScene = 0;
+                    {
+                        this->selectedScene = 0;
+                        ui->treeWidget->topLevelItem(0)->setSelected(true);
+                        ui->treeWidget->currentItemChanged(ui->treeWidget->topLevelItem(0), NULL);
+                        return;
 					}
 					ui->treeWidget->topLevelItem(this->selectedScene)->setSelected(true);
 					ui->treeWidget->currentItemChanged(ui->treeWidget->topLevelItem(this->selectedScene), ui->treeWidget->topLevelItem(this->selectedScene - 1));
