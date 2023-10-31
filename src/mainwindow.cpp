@@ -73,7 +73,7 @@ void MainWindow::fillDataFromFolder(const QString &folder)
     refractionsData.fill(0, num);
 }
 
-float MainWindow::getRefractionFromImage(QImage &cropBackground, QImage &cropHole)
+double MainWindow::getRefractionFromImage(QImage &cropBackground, QImage &cropHole)
 {
 //    float avgBackround = meanImage(cropBackground);
 //    float avgHole = meanImage(cropHole);
@@ -254,28 +254,47 @@ void MainWindow::on_pushButton_clicked()
 	{
 		QTextStream out(&file);
 		out << ui->startAngle->value() + ui->stepAngle->value() * i << "\t" << refractionsData[i] << "\n";
-		qDebug() << refractionsData[i];
-	}
+        qDebug() << refractionsData[i];
+    }
+}
+
+void MainWindow::updateLanguage(int lang)
+{
+    language = lang;
+//    QString translations = QString("MyApp%1.qm").arg(QLocale().name());
+    QApplication::instance()->removeTranslator(&mTranslator);
+//    const QString baseName = "HoleProcessor_" + QLocale(locale).name();
+    QString baseName;
+    if (lang == 1)
+        baseName = "HoleProcessor_ru_RU.ts";
+    else
+        return;
+    if (mTranslator.load(":/i18n/" + baseName)) {
+        qDebug() << "LOAD FINISHED";
+        QApplication::instance()->installTranslator(&mTranslator);
+    } else {
+        qDebug() << "COULD NOT INSTALL TRANSLATIONS ";
+    }
 }
 
 void MainWindow::wheelEvent(QWheelEvent *event)
 {
-//    if ( QApplication::keyboardModifiers () == Qt::CTRL) {
-//    ui->backgroundGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-//    ui->holeGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-//    // Scale the view / do the zoom
-//    double scaleFactor = 1.15;
-//    if(event->angleDelta().y() > 0) {
-//        // Zoom in
-//        ui->backgroundGraphicsView-> scale(scaleFactor, scaleFactor);
-//        ui->holeGraphicsView->scale(scaleFactor, scaleFactor);
+    if ( QApplication::keyboardModifiers () == Qt::CTRL) {
+        ui->backgroundGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        ui->holeGraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        // Scale the view / do the zoom
+        double scaleFactor = 1.15;
+        if(event->angleDelta().y() > 0) {
+            // Zoom in
+            ui->backgroundGraphicsView-> scale(scaleFactor, scaleFactor);
+            ui->holeGraphicsView->scale(scaleFactor, scaleFactor);
 
-//    } else {
-//        // Zooming out
-//        ui->backgroundGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-//        ui->holeGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-//    }
-	//    }
+        } else {
+            // Zooming out
+            ui->backgroundGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+            ui->holeGraphicsView->scale(1.0 / scaleFactor, 1.0 / scaleFactor);
+        }
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -311,3 +330,23 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 		}
 	}
 }
+
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    //QDialog::changeEvent(event);
+    if( QEvent::LanguageChange == event->type())
+    {
+        ui->retranslateUi(this);
+    }
+}
+
+void MainWindow::on_actionLanguage_triggered()
+{
+    if (language != 1)
+        language = 1;
+    else
+        language = 0;
+    updateLanguage(language);
+}
+

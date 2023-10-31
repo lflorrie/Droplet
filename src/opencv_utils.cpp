@@ -83,7 +83,7 @@ void imageSubtraction(cv::Mat &a, cv::Mat &b, int thresh, int blurNum)
     }
 }
 
-float getMeanByMask(const cv::Mat &image, const cv::Mat &mask)
+double getMeanByMask(const cv::Mat &image, const cv::Mat &mask)
 {
     float result = 0;
     int count = 0;
@@ -101,18 +101,21 @@ float getMeanByMask(const cv::Mat &image, const cv::Mat &mask)
     return count == 0 ? 0 : result / count;
 }
 
-float getRefractionByMask(cv::Mat &mat, cv::Mat matBack, cv::Mat mask)
+double getRefractionByMask(cv::Mat &mat, cv::Mat matBack, cv::Mat mask)
 {
-    float result = 0;
+    double result = 0;
     int count = 0;
     for (int i = 0; i < mat.rows; ++i)
     {
         for (int j = 0; j < mat.cols; ++j)
         {
             int maskVal = mask.at<Vec<uchar, 1>>(i, j)[0];
-            if (maskVal != 255)
+            if (maskVal != 255 && matBack.at<Vec<uchar, 1>>(i, j)[0] != 0)
             {
-                result += mat.at<Vec<uchar, 1>>(i, j)[0] / (float)matBack.at<Vec<uchar, 1>>(i, j)[0];
+//                if (matBack.at<Vec<uchar, 1>>(i, j)[0] == 0)
+//                    result += mat.at<Vec<uchar, 1>>(i, j)[0] / 1.0;
+//                else
+                result += mat.at<Vec<uchar, 1>>(i, j)[0] / (double)matBack.at<Vec<uchar, 1>>(i, j)[0];
                 ++count;
             }
         }

@@ -17,8 +17,8 @@ cv::Mat getContours(cv::Mat mat, int threshold, int threshold2Offset, int blurNu
 
 void imageSubtraction(cv::Mat &a, cv::Mat &b, int thresh, int blurNum);
 
-float getMeanByMask(const cv::Mat &image, const cv::Mat &mask);
+double getMeanByMask(const cv::Mat &image, const cv::Mat &mask);
 
-float getRefractionByMask(cv::Mat &mat, cv::Mat matBack, cv::Mat mask);
+double getRefractionByMask(cv::Mat &mat, cv::Mat matBack, cv::Mat mask);
 
 #endif // OPENCV_UTILS_H
