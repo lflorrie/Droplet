@@ -85,19 +85,23 @@ float MainWindow::getRefractionFromImage(QImage &cropBackground, QImage &cropHol
     cv::Mat mat = qimage_to_mat_ref(grayImage, CV_8UC1);
     cv::Mat matBack = qimage_to_mat_ref(grayImageBack, CV_8UC1);
 
+    cv::Mat srcMatDroplet = mat.clone();
+    cv::Mat srcMatBackground = matBack.clone();
+
+
 	cv::Mat mat3;
 	cv::cvtColor(mat, mat3, cv::COLOR_GRAY2RGB);
 
     //subtraction
 	mat_ = mat.clone();
-	imageSubtraction(mat_, matBack, ui->thresholdMask->value(), ui->blurNum->value());
+    imageSubtraction(mat_, matBack, ui->thresholdMask->value(), ui->blurNum->value());
 
 	mat_ = getContours(mat_, this->threshold, this->threshold2Offset, ui->blurNum->value(), mat3);
 
 #if 0
     return getMeanByMask(mat, mat_) / getMeanByMask(matBack, mat_);
 #endif
-    return getRefractionByMask(mat, matBack, mat_);
+    return getRefractionByMask(srcMatDroplet, srcMatBackground, mat_);
 
 //    qDebug() << avgBackround << " " << avgHole;
 //    return avgHole / (float)avgBackround;

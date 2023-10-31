@@ -58,7 +58,7 @@ cv::Mat getContours(cv::Mat mat, int threshold, int threshold2Offset, int blurNu
 	imshow( "Contours2", dst );
 	imshow( "Mat", mat );
 
-	return dst;
+    return mat;
 }
 
 void imageSubtraction(cv::Mat &a, cv::Mat &b, int thresh, int blurNum)
@@ -109,7 +109,8 @@ float getRefractionByMask(cv::Mat &mat, cv::Mat matBack, cv::Mat mask)
     {
         for (int j = 0; j < mat.cols; ++j)
         {
-            if (mask.at<Vec<uchar, 1>>(i, j)[0] != 255)
+            int maskVal = mask.at<Vec<uchar, 1>>(i, j)[0];
+            if (maskVal != 255)
             {
                 result += mat.at<Vec<uchar, 1>>(i, j)[0] / (float)matBack.at<Vec<uchar, 1>>(i, j)[0];
                 ++count;
