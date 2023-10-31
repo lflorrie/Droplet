@@ -63,9 +63,12 @@ void MainWindow::fillDataFromFolder(const QString &folder)
             scene.addItem(item);
             holeScenes.push_back(scene);
         }
-        connect(&holeScenes[num], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[num], SLOT(drawRectangleNoSignal(QRectF)));
-        connect(&backgroundScenes[num], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
         ++num;
+    }
+    for (int i = 0; i < backgroundScenes.size(); ++i)
+    {
+        connect(&holeScenes[i], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[i], SLOT(drawRectangleNoSignal(QRectF)));
+        connect(&backgroundScenes[i], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
     }
     refractionsData.fill(0, num);
 }
@@ -231,7 +234,8 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *item, QTreeWi
 
     this->backgroundFileName = item->child(0)->text(0);
     this->holeFileName = item->child(1)->text(0);
-
+//    disconnect(&holeScenes[selectedScene]);
+//    disconnect(&backgroundScenes[selectedScene]);
 //    connect(&holeScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn(QRectF)), &backgroundScenes[selectedScene], SLOT(drawRectangleNoSignal(QRectF)));
 //    connect(&backgroundScenes[selectedScene], SIGNAL(rectangleHasBeenDrawn2(QRectF)), this, SLOT(on_rectangleIsReady(QRectF)));
 }
